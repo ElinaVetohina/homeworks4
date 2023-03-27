@@ -23,8 +23,7 @@ public class CardDeliveryTest {
     public void testCard() {
         $("[data-test-id=city] input").setValue("Москва");
         $("[data-test-id=date] input").doubleClick().sendKeys(Keys.DELETE);
-        String verificationDate = LocalDate.now() .plusDays(3)
-                .format(DateTimeFormatter.ofPattern("dd.MM.yyyy"));
+        String verificationDate = getVerificationDate(3);
         $("[data-test-id=date] input").setValue(verificationDate);
         $("[data-test-id=name] input").setValue("Жан-Поль Иванов");
         $("[data-test-id=phone] input").setValue("+12345678901");
@@ -33,5 +32,10 @@ public class CardDeliveryTest {
         $("[data-test-id=notification]")
                 .shouldHave(Condition.text("Успешно! Встреча успешно забронирована на " + verificationDate),
                         Duration.ofSeconds(15));
+    }
+
+    public String getVerificationDate(int days) {
+        return LocalDate.now().plusDays(days)
+                .format(DateTimeFormatter.ofPattern("dd.MM.yyyy"));
     }
 }
